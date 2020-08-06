@@ -22,11 +22,14 @@ public class ExampleResource {
 
   @POST
   public JsonObject add(JsonObject person) {
-    String b64 = person.getString("pdf");
+    String b64 = person.getString("attachment");
+    String recipient = person.getString("recipient");
+    String subject = person.getString("subject");
+    String body = person.getString("body");
     byte[] decoder = Base64.getDecoder().decode(b64);
     mailer.send(
-      Mail.withText("olupotcharles@gmail.com", "A simple email from quarkus", "This is my body.")
-        .addAttachment("result.pdf", decoder, "application/pdf"));
+      Mail.withText(recipient, subject, body)
+        .addAttachment("results.pdf", decoder, "application/pdf"));
     return person;
   }
 
