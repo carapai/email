@@ -1,4 +1,4 @@
-package io.getplatforms;
+package io.gateplatforms;
 
 import io.quarkus.test.junit.NativeImageTest;
 

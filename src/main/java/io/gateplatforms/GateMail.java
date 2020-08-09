@@ -1,4 +1,4 @@
-package io.getplatforms;
+package io.gateplatforms;
 
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
@@ -14,23 +14,24 @@ import java.util.Base64;
 
 
 @Path("/send")
-public class ExampleResource {
+public class GateMail {
 
   @Inject
   Mailer mailer;
 
 
   @POST
-  public JsonObject add(JsonObject person) {
-    String b64 = person.getString("attachment");
-    String recipient = person.getString("recipient");
-    String subject = person.getString("subject");
-    String body = person.getString("body");
+  public JsonObject add(JsonObject mail) {
+    String b64 = mail.getString("attachment");
+    String recipient = mail.getString("recipient");
+    String subject = mail.getString("subject");
+    String body = mail.getString("body");
+    String fileName = mail.getString("fileName", "results");
     byte[] decoder = Base64.getDecoder().decode(b64);
     mailer.send(
       Mail.withText(recipient, subject, body)
-        .addAttachment("results.pdf", decoder, "application/pdf"));
-    return person;
+        .addAttachment(fileName + ".pdf", decoder, "application/pdf"));
+    return mail;
   }
 
   @GET
